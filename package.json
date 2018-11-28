@@ -4,10 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "build": "ng build --prod --base-href --aot",
+    "startTest": "ng serve --configuration=test",
+    "buildTest": "ng build --prod --configuration=test"
   },
   "private": true,
   "dependencies": {

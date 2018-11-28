@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import {ShareModule} from './share/share.module';
+import {CoreModule} from './core/core.module';
 
 registerLocaleData(zh);
 
@@ -16,7 +17,8 @@ registerLocaleData(zh);
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    ShareModule
+    ShareModule,
+    CoreModule
   ],
   bootstrap: [AppComponent]
 })

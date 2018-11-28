@@ -1,9 +1,9 @@
 /*
-生产环境
+测试环境
  */
 export const environment = {
-  production: true,
-  env: 'prod',
+  production: false,
+  env: 'test',
   api: {
   }
 };
