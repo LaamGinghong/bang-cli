@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ContentComponent} from './content.component';
 import {ContentRoutingModule} from './content-routing.module';
 import {ShareModule} from '../../share/share.module';
+import {ContentService} from './content.service';
 
 @NgModule({
   declarations: [ContentComponent],
@@ -10,7 +11,8 @@ import {ShareModule} from '../../share/share.module';
     CommonModule,
     ContentRoutingModule,
     ShareModule
-  ]
+  ],
+  providers: [ContentService]
 })
 export class ContentModule {
 }

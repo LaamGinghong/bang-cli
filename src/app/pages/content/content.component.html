@@ -1,3 +1,74 @@
-<p>
-  content works!
-</p>
+<nz-layout class="content">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+    <div class="logo">
+      {{isCollapsed ? 'WSP' : '仓储公共服务平台'}}
+    </div>
+    <ul
+      nz-menu
+      [nzTheme]="'dark'"
+      [nzMode]="'inline'"
+      [nzInlineCollapsed]="isCollapsed"
+      class="parentMenu"
+    >
+      <li nz-submenu *ngFor="let item of menuData">
+        <span title>
+          <i nz-icon [type]="item.icon?item.icon:'file'" theme="outline"></i>
+          <span class="nav-text" [title]="item.menuName">{{item.menuName}}</span>
+        </span>
+        <ul>
+          <li nz-menu-item *ngFor="let value of item.children" (click)="openItem(menu,value,item.menuName)">
+            {{value.menuName}}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header style="background: white;padding: 0">
+      <div class="trigger">
+        <i nz-icon [type]="isCollapsed?'menu-unfold':'menu-fold'" (click)="collapsed()"></i>
+      </div>
+      <div
+        class="tab-button"
+        *ngIf="showTabButton"
+        (mousedown)="turnTab(menu,true)"
+        (window:mouseup)="clearTurnTab()">
+        <i nz-icon type="caret-left" theme="outline"></i>
+      </div>
+      <ul nz-menu [nzTheme]="'light'" [nzMode]="'horizontal'" #menu>
+        <li
+          nz-menu-item
+          *ngFor="let item of tabs;let index=index"
+          [nzSelected]="item.selected"
+          (click)="openItem(menu,item)"
+          (mouseenter)="item.showClose=true"
+          (mouseleave)="item.showClose=false"
+        >
+          {{item.menuName}}
+          <span
+            *ngIf="tabs.length>1"
+            [hidden]="!item.showClose"
+            (mouseenter)="item.hoverClose=true"
+            (mouseleave)="item.hoverClose=false"
+            (click)="closeItem(menu,item,index)"
+          >
+            <i style="margin: 0" nz-icon type="close-circle" theme="outline" [hidden]="item.hoverClose"></i>
+            <i style="margin: 0" nz-icon type="close-circle" theme="fill" [hidden]="!item.hoverClose"></i>
+          </span>
+        </li>
+      </ul>
+      <div
+        class="tab-button"
+        *ngIf="showTabButton"
+        (mousedown)="turnTab(menu)"
+        (window:mouseup)="clearTurnTab()">
+        <i nz-icon type="caret-right" theme="outline"></i>
+      </div>
+    </nz-header>
+    <nz-content>
+      <nz-breadcrumb>
+        <nz-breadcrumb-item *ngFor="let item of breadcrumb">{{item}}</nz-breadcrumb-item>
+      </nz-breadcrumb>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
