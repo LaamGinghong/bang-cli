@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port=4000",
     "build": "ng build --prod --base-href --aot",
-    "startTest": "ng serve --configuration=test",
+    "startTest": "ng serve --configuration=test --port=4000",
     "buildTest": "ng build --prod --configuration=test"
   },
   "private": true,
