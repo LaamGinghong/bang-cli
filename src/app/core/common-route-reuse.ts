@@ -44,6 +44,7 @@ export class CommonRouteReuse implements RouteReuseStrategy {
   store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle | null): void {
     if (CommonRouteReuse.waitDelete && CommonRouteReuse.waitDelete === CommonRouteReuse.getRouteUrl(route)) {
       // 如果待删除是当前路由则不存储快照
+      handle['componentRef'].destory();
       CommonRouteReuse.waitDelete = null;
       return;
     }
