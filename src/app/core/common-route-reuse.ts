@@ -8,6 +8,7 @@ export class CommonRouteReuse implements RouteReuseStrategy {
 
   public static deleteRouteSnapshot(name: string): void {
     if (CommonRouteReuse.handlers[name]) {
+      CommonRouteReuse.handlers[name]['componentRef'].destory();
       delete CommonRouteReuse.handlers[name];
     } else {
       CommonRouteReuse.waitDelete = name;
