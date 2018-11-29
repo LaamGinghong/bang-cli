@@ -7,6 +7,8 @@ import {registerLocaleData} from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import {ShareModule} from './share/share.module';
 import {CoreModule} from './core/core.module';
+import {AppRoutingModule} from './app-routing.module';
+import {PagesModule} from './pages/pages.module';
 
 registerLocaleData(zh);
 
@@ -18,7 +20,9 @@ registerLocaleData(zh);
     BrowserModule,
     BrowserAnimationsModule,
     ShareModule,
-    CoreModule
+    CoreModule,
+    AppRoutingModule,
+    PagesModule
   ],
   bootstrap: [AppComponent]
 })

@@ -33,7 +33,7 @@ export class CommonRouteReuse implements RouteReuseStrategy {
 
   /** 表示对所有路由允许复用 如果你有路由不想利用可以在这加一些业务逻辑判断 */
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
-    return !route.data.reuse;
+    return !route.data.clear;
   }
 
   shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
