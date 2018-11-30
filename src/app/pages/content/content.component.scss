@@ -16,6 +16,7 @@ nz-layout.content {
 
       &::-webkit-scrollbar {
         width: 4px;
+
         &-thumb {
           background: rgba(255, 255, 255, .4);
           border-radius: 4px;
@@ -71,6 +72,14 @@ nz-layout.content {
 
     nz-breadcrumb {
       margin: 10px 16px;
+    }
+
+    .container {
+      background: white;
+      padding: 10px;
+      margin: 10px;
+      height: calc(100vh - 40px - 21px - 20px - 10px);
+      overflow-y: auto;
     }
   }
 }
