@@ -10,15 +10,29 @@
       [nzInlineCollapsed]="isCollapsed"
       class="parentMenu"
     >
-      <li nz-submenu *ngFor="let item of menuData">
+      <li nz-submenu *ngFor="let item of menuData;let index=index" [(nzOpen)]="item.open"
+          (nzOpenChange)="changeOpen(item,index)">
         <span title>
           <i nz-icon [type]="item.icon?item.icon:'file'" theme="outline"></i>
           <span class="nav-text" [title]="item.menuName">{{item.menuName}}</span>
         </span>
         <ul>
-          <li nz-menu-item *ngFor="let value of item.children" (click)="openItem(menu,value,item.menuName)">
-            {{value.menuName}}
-          </li>
+          <ng-template ngFor [ngForOf]="item.children" let-value>
+            <li nz-menu-item *ngIf="!value.children.length" (click)="openItem(menu,value,item.menuName)">
+              {{value.menuName}}
+            </li>
+            <li nz-submenu *ngIf="value.children.length" [(nzOpen)]="value.open">
+              <span title>
+                <span class="nav-text" [title]="value.menuName">{{value.menuName}}</span>
+              </span>
+              <ul>
+                <li nz-menu-item *ngFor="let val of value.children"
+                    (click)="openItem(menu,val,item.menuName,value.menuName)">
+                  {{val.menuName}}
+                </li>
+              </ul>
+            </li>
+          </ng-template>
         </ul>
       </li>
     </ul>

@@ -11,15 +11,7 @@ import Timer = NodeJS.Timer;
 })
 export class ContentComponent implements OnInit {
   isCollapsed = false; // 侧边栏缩放
-  menuData: Array<{
-    menuName: string,
-    icon: string,
-    children: Array<{
-      menuName: string,
-      url: string,
-      breadcrumb?: Array<object>
-    }>
-  }> = []; // 菜单栏
+  menuData = []; // 菜单栏
   tabs: Array<{
     menuName: string,
     url: string,
@@ -50,25 +42,26 @@ export class ContentComponent implements OnInit {
   initMenu(): void {
     this.contentService.getMenu().subscribe((result: { success: boolean, result: Array<object> }) => {
       if (result.success) {
-        const option = {};
-        result.result.forEach((item: { id: string, parentId: string }) => {
-          if (!Number(item.parentId)) {
-            option[item.id] = item;
-          }
-        });
-        const menu = [];
-        for (const i in option) {
-          if (option.hasOwnProperty(i)) {
-            menu.push(option[i]);
-          }
-        }
-        menu.forEach((item: { id: string, children: Array<object> }) => {
-          result.result.forEach((value: { parentId: string }) => {
+        let menu = result.result;
+        menu.forEach((item: { id: string, parentId: string, children: Array<object> }) => {
+          menu.forEach((value: { id: string, parentId: string }) => {
             if (item.id === value.parentId) {
               item.children.push(value);
             }
           });
         });
+        const option = {};
+        menu.forEach((item: { id: string, parentId: string }) => {
+          if (!Number(item.parentId)) {
+            option[item.id] = item;
+          }
+        });
+        menu = [];
+        for (const i in option) {
+          if (option.hasOwnProperty(i)) {
+            menu.push(option[i]);
+          }
+        }
         this.menuData = menu;
       }
     });
@@ -84,10 +77,31 @@ export class ContentComponent implements OnInit {
   }
 
   /**
+   * 当前只能打开一个一级菜单，并且关闭当前一级菜单下面所有二级菜单
+   */
+  changeOpen(value: { children: Array<{ open: boolean }> }, index: number): void {
+    this.menuData.forEach((item: { open: boolean }, number: number) => {
+      item.open = index === number;
+    });
+    value.children.forEach((item: { open: boolean }) => {
+      item.open = false;
+    });
+  }
+
+  /**
    * 打开路由页面
    */
-  openItem(menu: HTMLElement, value: { url: string, menuName: string, breadcrumb?: Array<string> }, parentName?: string): void {
-    this.breadcrumb = parentName ? [parentName, value.menuName] : value.breadcrumb;
+  openItem(menu: HTMLElement, value: { url: string, menuName: string, breadcrumb?: Array<string> }, grandParentName?: string, parentName?: string): void {
+    // this.breadcrumb = grandParentName ? [grandParentName, value.menuName] : value.breadcrumb;
+    if (grandParentName) {
+      if (parentName) {
+        this.breadcrumb = [grandParentName, parentName, value.menuName];
+      } else {
+        this.breadcrumb = [grandParentName, value.menuName];
+      }
+    } else {
+      this.breadcrumb = value.breadcrumb;
+    }
     // this.router.navigateByUrl(value.url).then((success: boolean) => {
     //   if (success) {
     if (this.tabs.some((item: { menuName: string }) => item.menuName === value.menuName)) {
