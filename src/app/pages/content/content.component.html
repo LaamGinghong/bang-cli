@@ -49,28 +49,30 @@
         (window:mouseup)="clearTurnTab()">
         <i nz-icon type="caret-left" theme="outline"></i>
       </div>
-      <ul nz-menu [nzTheme]="'light'" [nzMode]="'horizontal'" #menu>
-        <li
-          nz-menu-item
-          *ngFor="let item of tabs;let index=index"
-          [nzSelected]="item.selected"
-          (click)="openItem(menu,item)"
-          (mouseenter)="item.showClose=true"
-          (mouseleave)="item.showClose=false"
-        >
-          {{item.menuName}}
-          <span
-            *ngIf="tabs.length>1"
-            [hidden]="!item.showClose"
-            (mouseenter)="item.hoverClose=true"
-            (mouseleave)="item.hoverClose=false"
-            (click)="closeItem(menu,item,index)"
+      <div class="tab" #tab>
+        <ul nz-menu [nzTheme]="'light'" [nzMode]="'horizontal'" #menu>
+          <li
+            nz-menu-item
+            *ngFor="let item of tabs;let index=index"
+            [nzSelected]="item.selected"
+            (click)="openItem(menu,item)"
+            (mouseenter)="item.showClose=true"
+            (mouseleave)="item.showClose=false"
           >
+            {{item.menuName}}
+            <span
+              *ngIf="tabs.length>1"
+              [hidden]="!item.showClose"
+              (mouseenter)="item.hoverClose=true"
+              (mouseleave)="item.hoverClose=false"
+              (click)="closeItem(menu,item,index)"
+            >
             <i style="margin: 0" nz-icon type="close-circle" theme="outline" [hidden]="item.hoverClose"></i>
             <i style="margin: 0" nz-icon type="close-circle" theme="fill" [hidden]="!item.hoverClose"></i>
           </span>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
       <div
         class="tab-button"
         *ngIf="showTabButton"
@@ -78,6 +80,17 @@
         (window:mouseup)="clearTurnTab()">
         <i nz-icon type="caret-right" theme="outline"></i>
       </div>
+      <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
+        <div nz-dropdown class="userName">{{userName}}</div>
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item>
+            <a>1st menu item</a>
+          </li>
+          <li nz-menu-item>
+            <a>2nd menu item</a>
+          </li>
+        </ul>
+      </nz-dropdown>
     </nz-header>
     <nz-content>
       <nz-breadcrumb>

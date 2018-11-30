@@ -20,6 +20,11 @@ export class ContentService {
     return this.http.setBaseUrl(this.http.apiUrl.pagesApi).post(url, data);
   }
 
+  getUserInfo(): Observable<object> {
+    return this.getData('/getUserInfo');
+  }
+
+
   getMenu(): Observable<object> {
     return this.getData('/page/sys-menu/loadMenuByUser');
   }

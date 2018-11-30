@@ -1,8 +1,9 @@
-import {Component, OnInit, Renderer2} from '@angular/core';
+import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ContentService} from './content.service';
 import {Router} from '@angular/router';
 import {CommonRouteReuse} from '../../core/common-route-reuse';
 import Timer = NodeJS.Timer;
+import {max} from 'rxjs/operators';
 
 @Component({
   selector: 'app-content',
@@ -10,6 +11,7 @@ import Timer = NodeJS.Timer;
   styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit {
+  userName = '蓝京杭';
   isCollapsed = false; // 侧边栏缩放
   menuData = []; // 菜单栏
   tabs: Array<object> = [{
@@ -23,6 +25,7 @@ export class ContentComponent implements OnInit {
   showTabButton = false; // 左右移动按钮显示
   tabMoveInstance = 0; // 左右移动距离
   mouseDownTabMove: Timer; // 重复调用方法计时器
+  @ViewChild('tab') tab: ElementRef;
 
   constructor(
     private contentService: ContentService,
@@ -33,6 +36,10 @@ export class ContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMenu();
+    // this.getUserInfo();
+  }
+
+  getUserInfo(): void {
   }
 
   /**
@@ -138,9 +145,10 @@ export class ContentComponent implements OnInit {
         selected: true
       });
       setTimeout(() => {
-        if (menu.offsetWidth + 58 + 60 >= this.headerWidth) {
+        if (menu.offsetWidth + 58 + 60 + 76 >= this.headerWidth) {
           this.showTabButton = true;
-          this.renderer2.setStyle(menu, 'width', `${this.headerWidth - 58 - 60}px`);
+          this.renderer2.setStyle(menu, 'width', `${this.headerWidth - 58 - 60 - 76}px`);
+          this.renderer2.setStyle(this.tab.nativeElement, 'width', `${this.headerWidth - 58 - 60 - 76}px`);
           this.turnTab(menu);
         }
       });
@@ -175,11 +183,19 @@ export class ContentComponent implements OnInit {
     });
     const maxMoveInstance = currentWidth - menu.offsetWidth;
     this.mouseDownTabMove = setInterval(() => {
-      left ? this.tabMoveInstance = this.tabMoveInstance + 2 : this.tabMoveInstance = this.tabMoveInstance - 2;
-      if (this.tabMoveInstance < -maxMoveInstance || this.tabMoveInstance > 0) {
-        this.clearTurnTab();
+      if (left) {
+        if (this.tabMoveInstance < 0) {
+          this.tabMoveInstance += 2;
+        }
+      } else {
+        if (this.tabMoveInstance > -maxMoveInstance) {
+          this.tabMoveInstance -= 2;
+        }
       }
       this.renderer2.setStyle(menu, 'transform', `translate(${this.tabMoveInstance}px,0)`);
+      if (-this.tabMoveInstance >= maxMoveInstance || this.tabMoveInstance > 0) {
+        this.clearTurnTab();
+      }
     }, 1);
   }
 
