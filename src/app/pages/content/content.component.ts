@@ -12,18 +12,12 @@ import Timer = NodeJS.Timer;
 export class ContentComponent implements OnInit {
   isCollapsed = false; // 侧边栏缩放
   menuData = []; // 菜单栏
-  tabs: Array<{
-    menuName: string,
-    url: string,
-    breadcrumb?: Array<string>,
-    selected: boolean
-  }> = []; // tab栏
+  tabs: Array<object> = []; // tab栏
   breadcrumb = []; // 面包屑
   headerWidth = document.body.offsetWidth - 200; // 头部长度
   showTabButton = false; // 左右移动按钮显示
   tabMoveInstance = 0; // 左右移动距离
   mouseDownTabMove: Timer; // 重复调用方法计时器
-
 
   constructor(
     private contentService: ContentService,
@@ -92,7 +86,6 @@ export class ContentComponent implements OnInit {
    * 打开路由页面
    */
   openItem(menu: HTMLElement, value: { url: string, menuName: string, breadcrumb?: Array<string> }, grandParentName?: string, parentName?: string): void {
-    // this.breadcrumb = grandParentName ? [grandParentName, value.menuName] : value.breadcrumb;
     if (grandParentName) {
       if (parentName) {
         this.breadcrumb = [grandParentName, parentName, value.menuName];
@@ -157,7 +150,7 @@ export class ContentComponent implements OnInit {
   closeItem(menu, value: { url: string, selected: boolean }, index: number): void {
     this.tabs.splice(index, 1);
     if (value.selected) {
-      this.tabs[this.tabs.length - 1].selected = true;
+      this.tabs[this.tabs.length - 1]['selected'] = true;
     }
     this.tabs.forEach((item: { menuName: string, selected: boolean, url: string }) => {
       if (item.selected) {
