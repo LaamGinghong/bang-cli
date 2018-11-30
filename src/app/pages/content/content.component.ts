@@ -26,6 +26,7 @@ export class ContentComponent implements OnInit {
   tabMoveInstance = 0; // 左右移动距离
   mouseDownTabMove: Timer; // 重复调用方法计时器
   @ViewChild('tab') tab: ElementRef;
+  @ViewChild('menu') menu: ElementRef;
 
   constructor(
     private contentService: ContentService,
@@ -80,6 +81,12 @@ export class ContentComponent implements OnInit {
     this.isCollapsed = !this.isCollapsed;
     const bodyWidth = document.body.offsetWidth;
     this.headerWidth = this.isCollapsed ? bodyWidth - 80 : bodyWidth - 200;
+    this.renderer2.setStyle(this.tab.nativeElement, 'width', this.isCollapsed ? '1706px' : '1586px');
+    if (this.showTabButton) {
+      // [style.width]="isCollapsed?'1706px':'1586px'"
+      this.renderer2.setStyle(this.menu.nativeElement, 'width', `${this.headerWidth - 58 - 60 - 76}px`);
+      this.renderer2.setStyle(this.tab.nativeElement, 'width', `${this.headerWidth - 58 - 60 - 76}px`);
+    }
   }
 
   /**
