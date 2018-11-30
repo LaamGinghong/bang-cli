@@ -12,8 +12,13 @@ import Timer = NodeJS.Timer;
 export class ContentComponent implements OnInit {
   isCollapsed = false; // 侧边栏缩放
   menuData = []; // 菜单栏
-  tabs: Array<object> = []; // tab栏
-  breadcrumb = []; // 面包屑
+  tabs: Array<object> = [{
+    menuName: '首页',
+    url: '/pages/home',
+    breadcrumb: ['首页'],
+    selected: true
+  }]; // tab栏
+  breadcrumb = ['首页']; // 面包屑
   headerWidth = document.body.offsetWidth - 200; // 头部长度
   showTabButton = false; // 左右移动按钮显示
   tabMoveInstance = 0; // 左右移动距离
