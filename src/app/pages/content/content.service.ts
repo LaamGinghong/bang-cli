@@ -20,12 +20,11 @@ export class ContentService {
     return this.http.setBaseUrl(this.http.apiUrl.pagesApi).post(url, data);
   }
 
-  getUserInfo(): Observable<object> {
-    return this.getData('/getUserInfo');
+  getMenu(): Observable<object> { // 获取侧边栏菜单
+    return this.getData('/page/sys-menu/loadMenuByUser');
   }
 
-
-  getMenu(): Observable<object> {
-    return this.getData('/page/sys-menu/loadMenuByUser');
+  logOut(): Observable<object> { // 登出
+    return this.getData('/page/sys-user/loginOut');
   }
 }

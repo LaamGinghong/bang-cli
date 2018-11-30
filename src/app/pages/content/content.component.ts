@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {CommonRouteReuse} from '../../core/common-route-reuse';
 import Timer = NodeJS.Timer;
 import {max} from 'rxjs/operators';
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-content',
@@ -31,16 +32,13 @@ export class ContentComponent implements OnInit {
   constructor(
     private contentService: ContentService,
     private router: Router,
-    private renderer2: Renderer2
+    private renderer2: Renderer2,
+    private notification: NzNotificationService
   ) {
   }
 
   ngOnInit(): void {
     this.initMenu();
-    // this.getUserInfo();
-  }
-
-  getUserInfo(): void {
   }
 
   /**
@@ -105,7 +103,7 @@ export class ContentComponent implements OnInit {
    * 打开路由页面
    */
   openItem(menu: HTMLElement, value: { url: string, menuName: string, breadcrumb?: Array<string> }, grandParentName?: string, parentName?: string): void {
-    if (grandParentName) {
+    if (grandParentName) { // 修改面包屑，判断当前是在第几级菜单
       if (parentName) {
         this.breadcrumb = [grandParentName, parentName, value.menuName];
       } else {
@@ -116,7 +114,7 @@ export class ContentComponent implements OnInit {
     }
     // this.router.navigateByUrl(value.url).then((success: boolean) => {
     //   if (success) {
-    if (this.tabs.some((item: { menuName: string }) => item.menuName === value.menuName)) {
+    if (this.tabs.some((item: { menuName: string }) => item.menuName === value.menuName)) { // 如果当前页面已经打开，则切换到当前打开路由，tab栏视情况跳转具体位置
       let index = 0;
       this.tabs.forEach((item: { selected: boolean, menuName: string }, number: number) => {
         item.selected = item.menuName === value.menuName;
@@ -141,7 +139,7 @@ export class ContentComponent implements OnInit {
           }
         }
       }
-    } else {
+    } else { // 新增到tab
       this.tabs.forEach((item: { selected: boolean }) => {
         item.selected = false;
       });
@@ -177,7 +175,7 @@ export class ContentComponent implements OnInit {
         this.openItem(menu, item);
       }
     });
-    CommonRouteReuse.deleteRouteSnapshot(value.url);
+    CommonRouteReuse.deleteRouteSnapshot(value.url); // 删除路由快照
   }
 
   /**
@@ -211,5 +209,25 @@ export class ContentComponent implements OnInit {
    */
   clearTurnTab(): void {
     clearInterval(this.mouseDownTabMove);
+  }
+
+  /**
+   * 登出
+   */
+  logOut(): void {
+    this.contentService.logOut().subscribe((result: { success: boolean, result: boolean }) => {
+      if (result.success) {
+        if (result.result) {
+          this.notification.success('登出', '成功！');
+          this.router.navigateByUrl('/pages/login');
+        }
+      }
+    });
+  }
+
+  /**
+   * 修改密码
+   */
+  changePassword(): void {
   }
 }

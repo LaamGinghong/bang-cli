@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {LoginService} from './login.service';
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +10,56 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  validateForm: FormGroup;
+  loginLoading = false;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private loginService: LoginService,
+    private notification: NzNotificationService
+  ) {
   }
 
+  ngOnInit(): void {
+    this.validateForm = this.formBuilder.group({
+      userName: [null, [Validators.required]],
+      password: [null, [Validators.required]],
+      rememberUserName: [true],
+      rememberPassword: [true]
+    });
+  }
+
+  login(): void {
+    for (const i in this.validateForm.controls) {
+      if (this.validateForm.controls.hasOwnProperty(i)) {
+        this.validateForm.controls[i].markAsDirty();
+        this.validateForm.controls[i].updateValueAndValidity();
+      }
+    }
+    for (const i in this.validateForm.value) {
+      if (this.validateForm.value.hasOwnProperty(i)) {
+        if (i !== 'rememberUserName' && i !== 'rememberPassword') {
+          if (!this.validateForm.value[i]) {
+            return;
+          }
+        }
+      }
+    }
+    const option = {
+      username: this.validateForm.value.userName,
+      password: this.validateForm.value.password
+    };
+    this.loginLoading = true;
+    this.loginService.login(option).subscribe((result: { success: boolean, result: boolean }) => {
+      if (result.success) {
+        if (result.result) {
+          this.notification.success('登录', '成功！');
+          localStorage.setItem('userInfo', JSON.stringify(option));
+          this.router.navigateByUrl('/pages/content');
+        }
+      }
+      this.loginLoading = false;
+    });
+  }
 }

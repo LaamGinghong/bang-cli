@@ -83,11 +83,11 @@
       <nz-dropdown [nzPlacement]="'bottomRight'" [nzTrigger]="'click'">
         <div nz-dropdown class="userName">{{userName}}</div>
         <ul nz-menu nzSelectable>
-          <li nz-menu-item>
-            <a>1st menu item</a>
+          <li nz-menu-item (click)="changePassword()" style="font-size: 12px">
+            <i nz-icon type="edit" theme="outline"></i>修改密码
           </li>
-          <li nz-menu-item>
-            <a>2nd menu item</a>
+          <li nz-menu-item (click)="logOut()" style="font-size: 12px">
+            <i nz-icon type="logout" theme="outline"></i>登出
           </li>
         </ul>
       </nz-dropdown>
