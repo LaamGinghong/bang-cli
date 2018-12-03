@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {CommonRouteReuse} from '../../core/common-route-reuse';
 import {NzNotificationService} from 'ng-zorro-antd';
 import Timer = NodeJS.Timer;
+import {CookieService} from '../../share/service/cookie.service';
 
 @Component({
   selector: 'app-content',
@@ -218,6 +219,7 @@ export class ContentComponent implements OnInit {
       if (result.success) {
         if (result.result) {
           this.notification.success('登出', '成功！');
+          CookieService.delete('WSP_JSESSIONID');
           this.router.navigateByUrl('/pages/login');
         }
       }

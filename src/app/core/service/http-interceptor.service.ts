@@ -29,29 +29,28 @@ export class HttpInterceptorService implements HttpInterceptor {
           case 401:
             break;
           case 200:
-            // if (res.body && !res.body.success) {
-            //   res.body.errorInfos[0].msg === '用户信息校验失败' ? this.notification.error('用户信息校验失败', '未能获取当前用户搜索条件设置，请确认账号登录成功后再次尝试！') : this.notification.error('失败', res.body.errorInfos[0].msg);
-            // }
-            if (res.body.errorInfos[0].msg === '请登录后再操作' || res.body.errorInfos[0].msg === '用户登录信息过期') {
-              this.modal.create({
-                nzWidth: 340,
-                nzMaskClosable: false,
-                nzTitle: `登录提示`,
-                nzContent: `登录超时，请重新登录`,
-                nzFooter: [
-                  {
-                    label: '去登录',
-                    shape: 'primary',
-                    onClick: () => {
-                      this.modal.closeAll();
-                      CookieService.delete('WSP_JSESSIONID');
-                      window.location.reload();
+            if (res.body && !res.body.success) {
+              if (res.body.errorInfos[0].msg === '请登录后再操作' || res.body.errorInfos[0].msg === '用户登录信息过期') {
+                this.modal.create({
+                  nzWidth: 340,
+                  nzMaskClosable: false,
+                  nzTitle: `登录提示`,
+                  nzContent: `登录超时，请重新登录`,
+                  nzFooter: [
+                    {
+                      label: '去登录',
+                      shape: 'primary',
+                      onClick: () => {
+                        this.modal.closeAll();
+                        CookieService.delete('WSP_JSESSIONID');
+                        window.location.reload();
+                      }
                     }
-                  }
-                ]
-              });
-            } else {
-              this.notification.create('error', '失败', res.body.errorInfos[0].msg);
+                  ]
+                });
+              } else {
+                this.notification.create('error', '失败', res.body.errorInfos[0].msg);
+              }
             }
             break;
           case 404:

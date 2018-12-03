@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {LoginService} from './login.service';
 import {NzNotificationService} from 'ng-zorro-antd';
+import {CookieService} from '../../share/service/cookie.service';
 
 @Component({
   selector: 'app-login',
@@ -69,6 +70,7 @@ export class LoginComponent implements OnInit {
         if (result.result) {
           this.notification.success('登录', '成功！');
           localStorage.setItem('userInfo', JSON.stringify(option));
+          CookieService.set('WSP_JSESSIONID', option.username);
           this.router.navigateByUrl('/pages/content');
         }
       }

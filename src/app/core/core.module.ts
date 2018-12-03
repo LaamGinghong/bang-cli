@@ -6,6 +6,7 @@ import {NET_SERVICES} from './service';
 import {HttpClientModule} from '@angular/common/http';
 import {RouteReuseStrategy} from '@angular/router';
 import {CommonRouteReuse} from './common-route-reuse';
+import {RoutingGuardService} from './service/routing-guard.service';
 
 export function configFactory(config: StartUpService): Function {
   return () => config.load();
@@ -13,6 +14,7 @@ export function configFactory(config: StartUpService): Function {
 
 const providers: Provider = [
   CoreService,
+  RoutingGuardService,
   NET_SERVICES,
   {provide: APP_INITIALIZER, useFactory: configFactory, deps: [StartUpService], multi: true},
   {provide: RouteReuseStrategy, useClass: CommonRouteReuse}
