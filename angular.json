@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "bang-storage-cli": {
+    "bang-cli": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/bang-storage-cli",
+            "outputPath": "dist/bang-cli",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -91,19 +91,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "bang-storage-cli:build"
+            "browserTarget": "bang-cli:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "bang-storage-cli:build:production"
+              "browserTarget": "bang-cli:build:production"
             },
             "test": {
-              "browserTarget": "bang-storage-cli:build:test"
+              "browserTarget": "bang-cli:build:test"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "bang-storage-cli"
+  "defaultProject": "bang-cli"
 }
