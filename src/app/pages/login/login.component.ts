@@ -43,8 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.router.navigateByUrl('/pages/content');
-    /*for (const i in this.validateForm.controls) {
+    for (const i in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(i)) {
         this.validateForm.controls[i].markAsDirty();
         this.validateForm.controls[i].updateValueAndValidity();
@@ -76,6 +75,6 @@ export class LoginComponent implements OnInit {
         }
       }
       this.loginLoading = false;
-    });*/
+    });
   }
 }

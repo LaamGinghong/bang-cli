@@ -13,7 +13,7 @@ const routes: Routes = [{
   }, {
     path: 'home',
     loadChildren: './home/home.module#HomeModule',
-    // canActivate: [RoutingGuardService]
+    canActivate: [RoutingGuardService]
   }]
 }];
 
