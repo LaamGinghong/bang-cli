@@ -232,6 +232,8 @@ export class ContentComponent implements OnInit {
    * 修改密码
    */
   changePassword(): void {
-    this.router.navigateByUrl('/pages/change_password');
+    setTimeout(() => {
+      this.router.navigateByUrl('/pages/change_password');
+    }, 500);
   }
 }
