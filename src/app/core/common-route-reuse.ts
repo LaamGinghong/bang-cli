@@ -7,11 +7,12 @@ export class CommonRouteReuse implements RouteReuseStrategy {
   private static waitDelete: string;
 
   public static deleteRouteSnapshot(name: string): void {
-    if (CommonRouteReuse.handlers[name]) {
-      CommonRouteReuse.handlers[name]['componentRef'].destory();
-      delete CommonRouteReuse.handlers[name];
+    const url = name.split('/').join('_');
+    if (CommonRouteReuse.handlers[url]) {
+      CommonRouteReuse.handlers[url]['componentRef'].destroy();
+      delete CommonRouteReuse.handlers[url];
     } else {
-      CommonRouteReuse.waitDelete = name;
+      CommonRouteReuse.waitDelete = url;
     }
   }
 
@@ -45,7 +46,7 @@ export class CommonRouteReuse implements RouteReuseStrategy {
   store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle | null): void {
     if (CommonRouteReuse.waitDelete && CommonRouteReuse.waitDelete === CommonRouteReuse.getRouteUrl(route)) {
       // 如果待删除是当前路由则不存储快照
-      handle['componentRef'].destory();
+      handle['componentRef'].destroy();
       CommonRouteReuse.waitDelete = null;
       return;
     }

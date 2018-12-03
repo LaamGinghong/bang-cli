@@ -12,7 +12,7 @@ import {CookieService} from '../../share/service/cookie.service';
   styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit {
-  userName = '蓝京杭';
+  userName: string;
   isCollapsed = false; // 侧边栏缩放
   menuData = []; // 菜单栏
   tabs: Array<object> = [{
@@ -39,6 +39,7 @@ export class ContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMenu();
+    this.userName = CookieService.get('WSP_JSESSIONID');
   }
 
   /**
@@ -220,6 +221,7 @@ export class ContentComponent implements OnInit {
         if (result.result) {
           this.notification.success('登出', '成功！');
           CookieService.delete('WSP_JSESSIONID');
+          CommonRouteReuse.deleteRouteSnapshot(this.router.url);
           this.router.navigateByUrl('/pages/login');
         }
       }
