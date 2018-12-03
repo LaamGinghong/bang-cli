@@ -28,6 +28,17 @@ export class LoginComponent implements OnInit {
       rememberUserName: [true],
       rememberPassword: [true]
     });
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo.rememberUserName) {
+      this.validateForm.patchValue({
+        userName: userInfo.userName
+      });
+    }
+    if (userInfo.rememberPassword) {
+      this.validateForm.patchValue({
+        password: userInfo.password
+      });
+    }
   }
 
   login(): void {
@@ -48,7 +59,9 @@ export class LoginComponent implements OnInit {
     }
     const option = {
       username: this.validateForm.value.userName,
-      password: this.validateForm.value.password
+      password: this.validateForm.value.password,
+      rememberUserName: this.validateForm.value.rememberUserName,
+      rememberPassword: this.validateForm.value.rememberPassword
     };
     this.loginLoading = true;
     this.loginService.login(option).subscribe((result: { success: boolean, result: boolean }) => {

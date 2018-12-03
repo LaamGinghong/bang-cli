@@ -11,7 +11,8 @@ const routes: Routes = [{
     pathMatch: 'full'
   }, {
     path: 'content',
-    loadChildren: './content/content.module#ContentModule'
+    loadChildren: './content/content.module#ContentModule',
+    data: {clear: true}
   }, {
     path: 'login',
     loadChildren: './login/login.module#LoginModule',

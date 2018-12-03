@@ -2,9 +2,8 @@ import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core
 import {ContentService} from './content.service';
 import {Router} from '@angular/router';
 import {CommonRouteReuse} from '../../core/common-route-reuse';
-import Timer = NodeJS.Timer;
-import {max} from 'rxjs/operators';
 import {NzNotificationService} from 'ng-zorro-antd';
+import Timer = NodeJS.Timer;
 
 @Component({
   selector: 'app-content',
