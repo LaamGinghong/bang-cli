@@ -12,7 +12,7 @@ import {CookieService} from '../../share/service/cookie.service';
   styleUrls: ['./content.component.scss']
 })
 export class ContentComponent implements OnInit {
-  userName: string;
+  userName: string = 'Admin';
   isCollapsed = false; // 侧边栏缩放
   menuData = []; // 菜单栏
   tabs: Array<object> = [{
@@ -39,7 +39,7 @@ export class ContentComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMenu();
-    this.userName = CookieService.get('WSP_JSESSIONID');
+    // this.userName = CookieService.get('WSP_JSESSIONID');
   }
 
   /**
