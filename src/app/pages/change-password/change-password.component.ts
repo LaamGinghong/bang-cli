@@ -68,5 +68,6 @@ export class ChangePasswordComponent implements OnInit {
 
   reset(e: MouseEvent): void {
     e.preventDefault();
+    this.validateForm.reset();
   }
 }
